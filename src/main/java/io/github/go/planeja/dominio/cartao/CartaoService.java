@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,6 +36,13 @@ public class CartaoService {
         CartaoEntity entity = mapper.toEntity(form);
         repository.save(entity);
         return mapper.toDetalhes(entity);
+    }
+
+    public List<CartaoDetalhes> listarTodos() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toDetalhes)
+                .toList();
     }
 
     public CartaoDetalhes obterDetalhes(UUID id){
